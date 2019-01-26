@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+	<div align="center" style="margin-bottom : 10px">
+	
+	<input id="iptNumber" type="text" placeholder="Number of fields">
+	<button id="btnAceptar" onclick="generarInputs();">Accept</button>
+	</div>
+	<br/>
+	<br/>
+	<div id="container" align="center">		
+	</div>
+	<br/>
+	<br/>
+	<div id="queries" align="center">		
+	</div>
+
+<script type="text/javascript">
+	var times = 0;
+
+	function generarInputs() {
+		
+		var number = document.getElementById("iptNumber").value;
+		
+		if(times === 0){
+		times += 1;
+		if(number !== "" && number > 0){
+		for (var i = 0; i < number; i++) {
+			generarInput();
+		}
+		document.getElementById('container').appendChild(document.createElement("br"));
+
+		var z = document.createElement("input");
+		z.setAttribute("placeholder","Table name");
+		z.setAttribute('id','idTable');
+		document.getElementById('container').appendChild(z);
+
+		var w = document.createElement("input");
+		w.setAttribute('id', 'numQueries');
+		w.setAttribute("type","number");
+		w.setAttribute("value","20");
+		w.setAttribute("style","width: 35px");
+		document.getElementById('container').appendChild(w);
+
+		var y = document.createElement("button");
+		y.setAttribute("onClick","generate()");
+		y.innerText = "Generate";
+		document.getElementById('container').appendChild(y);
+		  
+		}
+		}else{
+			document.getElementById("iptNumber").style.borderColor = "#ff0000";
+		}
+	
+	}
+
+	function generarInput() {
+		  var x = document.createElement("select");
+		  x.setAttribute("option", "Seleccionar");
+
+		  for (var i = 0; i < types.length; i++) {		 
+			   var option = document.createElement("option");
+	  		   option.text = types[i];
+	  		   x.add(option);
+		  }
+		  document.getElementById('container').appendChild(x);
+
+	}
+
+	function generate(){
+		
+		var queries = [];
+		var table = document.getElementById("idTable").value;
+		var numQueries = document.getElementById('numQueries').value;
+
+		document.getElementById('queries').innerHTML = ''; 
+		if(table !== ""){
+			for (var i = 0; i < numQueries; i++) {
+			var query = 'INSERT INTO ' + table + ' VALUES ('+values()+');';
+			document.getElementById('queries').innerHTML += query + '<br/>'; 
+			}
+		}else{
+			document.getElementById("idTable").style.borderColor="#ff0000";
+		}		
+	}
+
+	function values(){
+
+		var fields = [];
+		var field = '';
+		var x = document.getElementsByTagName('select');
+		
+			for (var i = 0; i < x.length; i++) {
+
+				if(x[i].value === 'VARCHAR'){
+					field += (i === x.length - 1 ) ? varchar10[Math.floor(Math.random() * 7)] :varchar10[Math.floor(Math.random() * 7)] + ', ';
+				} else if(x[i].value === 'DATE'){
+					field += (i === x.length - 1 ) ? dates[Math.floor(Math.random() * dates.length)] : dates[Math.floor(Math.random() * dates.length)] + ', ';
+				}else if (x[i].value === 'NUMBER') {
+					field += (i === x.length - 1 ) ? Math.floor(Math.random() * 100000) : Math.floor(Math.random() * 100000) + ', ';
+				}else if(x[i].value === 'NAME'){
+					field += (i === x.length - 1 ) ? names[Math.floor(Math.random() * 18)] : names[Math.floor(Math.random() * 18)] + ', ';
+				}else if(x[i].value === 'LAST NAME'){
+					field += (i === x.length - 1 ) ? lastNames[Math.floor(Math.random() * 12 )] : lastNames[Math.floor(Math.random() * 12)] + ', ';				
+				}
+			}
+		return field;
+	}
+
+	
+var varchar10 = ["casa","direccion","abanderase","facciones","fabulosos","facturada","radiacion"];
+var varchar25 = ["seguro que habras oído"," este tutorial intentará","exponer aplicaciones legales","luego lo mostraremos"];
+var dates = ['01-12-2018', '08-09-2011', '07-12-2013', '26-01-2000', '07-02-2006', '06-07-2015', '20-07-1999'];
+var names = ['Juan', 'Enrique', 'Julian', 'Romario', 'Roberto', 'Oscar', 'Raquel', 'Alejandro', 'Camilo', 'Antonio', 'Miguel', 'Esther', 'Manuel', 'Jose', 'Jorge', 'Carlos' , 'Luis', 'Esteban'];
+var lastNames = ['Diaz', 'Hernandez', 'Cadena', 'Guzman' , 'Rodriguez', 'Lara', 'Sotelo', 'Ortega', 'Marquina', 'Aguilar', 'Lopez', 'Reyna'];
+var types = ['VARCHAR', 'NUMBER', 'DATE', 'NAME', 'LAST NAME']
+
+</script>
+	
+</body>
+</html>
