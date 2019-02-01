@@ -22,6 +22,7 @@
 
 <script type="text/javascript">
 	var times = 0;
+	var sequence = 1;
 
 	function generarInputs() {
 		
@@ -62,6 +63,7 @@
 	function generarInput() {
 		  var x = document.createElement("select");
 		  x.setAttribute("option", "Seleccionar");
+		  x.setAttribute("onchange", "change1()");
 
 		  for (var i = 0; i < types.length; i++) {		 
 			   var option = document.createElement("option");
@@ -90,7 +92,7 @@
 	}
 
 	function values(){
-
+		
 		var fields = [];
 		var field = '';
 		var x = document.getElementsByTagName('select');
@@ -98,27 +100,34 @@
 			for (var i = 0; i < x.length; i++) {
 
 				if(x[i].value === 'VARCHAR'){
-					field += (i === x.length - 1 ) ? varchar10[Math.floor(Math.random() * 7)] :varchar10[Math.floor(Math.random() * 7)] + ', ';
+					field += (i === x.length - 1 ) ? "'" + varchar10[Math.floor(Math.random() * 7)] + "'" : "'"+ varchar10[Math.floor(Math.random() * 7)] + "', ";
 				} else if(x[i].value === 'DATE'){
-					field += (i === x.length - 1 ) ? dates[Math.floor(Math.random() * dates.length)] : dates[Math.floor(Math.random() * dates.length)] + ', ';
+					field += (i === x.length - 1 ) ? "'" + dates[Math.floor(Math.random() * dates.length)] + "'" : "'" + dates[Math.floor(Math.random() * dates.length)] + "', ";
 				}else if (x[i].value === 'NUMBER') {
 					field += (i === x.length - 1 ) ? Math.floor(Math.random() * 100000) : Math.floor(Math.random() * 100000) + ', ';
 				}else if(x[i].value === 'NAME'){
-					field += (i === x.length - 1 ) ? names[Math.floor(Math.random() * 18)] : names[Math.floor(Math.random() * 18)] + ', ';
+					field += (i === x.length - 1 ) ? "'" + names[Math.floor(Math.random() * 18)] + "'": "'" + names[Math.floor(Math.random() * 18)] + "', ";
 				}else if(x[i].value === 'LAST NAME'){
-					field += (i === x.length - 1 ) ? lastNames[Math.floor(Math.random() * 12 )] : lastNames[Math.floor(Math.random() * 12)] + ', ';				
+					field += (i === x.length - 1 ) ? "'" + lastNames[Math.floor(Math.random() * 12 )] + "'": "'"+lastNames[Math.floor(Math.random() * 12)] + "', ";				
+				}else if(x[i].value === 'SEQUENCE'){
+					field += (i === x.length - 1 ) ?  sequence : sequence + ", ";				 
+					sequence++;
 				}
 			}
 		return field;
 	}
 
+	function change1(){
+			console.log('cambia');
+	}
+
 	
 var varchar10 = ["casa","direccion","abanderase","facciones","fabulosos","facturada","radiacion"];
 var varchar25 = ["seguro que habras oído"," este tutorial intentará","exponer aplicaciones legales","luego lo mostraremos"];
-var dates = ['01-12-2018', '08-09-2011', '07-12-2013', '26-01-2000', '07-02-2006', '06-07-2015', '20-07-1999'];
+var dates = ['2018-12-22', '2011-11-09', '2013-12-09', '2000-11-18', '2019-01-31', '2015-02-28', '1999-08-18'];
 var names = ['Juan', 'Enrique', 'Julian', 'Romario', 'Roberto', 'Oscar', 'Raquel', 'Alejandro', 'Camilo', 'Antonio', 'Miguel', 'Esther', 'Manuel', 'Jose', 'Jorge', 'Carlos' , 'Luis', 'Esteban'];
 var lastNames = ['Diaz', 'Hernandez', 'Cadena', 'Guzman' , 'Rodriguez', 'Lara', 'Sotelo', 'Ortega', 'Marquina', 'Aguilar', 'Lopez', 'Reyna'];
-var types = ['VARCHAR', 'NUMBER', 'DATE', 'NAME', 'LAST NAME']
+var types = ['VARCHAR', 'NUMBER', 'DATE', 'NAME', 'LAST NAME', 'SEQUENCE'];
 
 </script>
 	
